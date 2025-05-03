@@ -2,10 +2,9 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
-    <title>Document</title>
+    <title>pachiyame</title>
     <link rel="stylesheet" href="css/index.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -21,12 +20,13 @@
         </div>
     </header>
 
-    <form id="form" class="form">
+    <div class="post-area">
         <div>
-            <textarea name="story" id="story" cols="50" rows="10"></textarea>
+            <textarea name="body" id="post-body" cols="50" rows="10"></textarea>
+            <input type="text" id="post-tag" name="tag" placeholder="tag">
         </div>
-        <button type="submit" class="btn">書き込み！</button>
-    </form>
+        <input type="button" id="post-btn" class="btn" value="書き込み！">
+    </div>
 
     <div class="posts-item">
         <p><span id="output-text"></span></p>
@@ -35,27 +35,3 @@
     <script src="js/index.js"></script>
 </body>
 </html>
-=======
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="css/index.css"> -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <title>pachiyame</title>
-</head>
-<body>
-    <h1>学習ログ</h1>
-
-    <div class="container">
-        <div class="post-area">
-            <textarea name="body" id="post-body" placeholder="body"></textarea>
-            <input type="text" id="post-tag" name="tag" placeholder="tag">
-            <input type="button" id="post-btn" value="投稿">
-    </div>
-
-        <div class="sea-area">
-
-        </div>
-    </div>
-    <script src="js/index.js"></script>
-</body>
-</html>
->>>>>>> 47dd1acd4b04d8fb567e362ff5a7dbefbdd2d186
