@@ -43,7 +43,7 @@ header {
     transition: all 0.5s;
 }
 
-.form {
+.post-area {
     font-size: 20px;
     padding: 70px;
     min-height: 140px;

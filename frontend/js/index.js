@@ -1,12 +1,12 @@
-<<<<<<< HEAD
-$(function() {
-    $('#form').submit(function() {
-        var textItem = $('#story').val();
-        $('#output-text').text(textItem);
-        return false;
-    });
-});
-=======
+
+// $(function() {
+//     $('#form').submit(function() {
+//         var textItem = $('#story').val();
+//         $('#output-text').text(textItem);
+//         return false;
+//     });
+// });
+
 //articlesAPIにPOST
 $('#post-btn').click(function(){
     const body = $('#post-body').val();
@@ -44,9 +44,9 @@ function articles_get(){
     })
         .then(res => res.json())
         .then(function(data){
-            $('.sea-area').html('');
+            $('.posts-item').html('');
             data.forEach(data2 => {
-                $('.sea-area').append(
+                $('.posts-item').append(
                     `
                     <div class="item">
                         <p>${data2.body}</p>
@@ -57,4 +57,4 @@ function articles_get(){
         })
 }
 articles_get();
->>>>>>> 47dd1acd4b04d8fb567e362ff5a7dbefbdd2d186
+
