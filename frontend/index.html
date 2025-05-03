@@ -1,1 +1,36 @@
-<h1>Hello!</h1>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <img class="logo" src="images/sontyo.jpg">
+            </div>
+            <div class="header-right">
+                <a href="#">新規登録</a>
+                <a href="#">ログイン</a>
+                <a href="#">ログアウト</a>
+            </div>
+        </div>
+    </header>
+
+    <form id="form" class="form">
+        <div>
+            <textarea name="story" id="story" cols="50" rows="10"></textarea>
+        </div>
+        <button type="submit" class="btn">書き込み！</button>
+    </form>
+
+    <div class="posts-item">
+        <p><span id="output-text"></span></p>
+    </div>
+
+    <script src="js/index.js"></script>
+</body>
+</html>
