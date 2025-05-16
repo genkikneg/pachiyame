@@ -1,0 +1,53 @@
+.textbox-label,
+.textbox-1{
+    color: #333;
+    margin: 0 auto;
+}
+
+.textbox-1{
+    width:70%;
+    padding: 8px 10px;
+    border: 1px solid #d2d2d2;
+    border-radius: 3px;
+    background: #f7f7f7;
+    font-size: 1em;
+    line-height: 1.5;
+    margin: 0 auto;
+} 
+
+.textbox-1::placeholder{
+    color:#999;
+}
+
+.textbox-label{
+    display:block;
+    margin-bottom: 5px;
+    font-size: .9em;
+}
+
+.button{
+    display: inline-block;
+    border-radius: 20%;
+    font-size: 14pt;
+    text-align: center;
+    cursor: pointer;
+    padding: 12px 29px;
+    background: rgba(102, 102, 255, 0.86);
+    color: #ffff;
+    line-height: 1em;
+    transition: .3s;
+    box-shadow: 3px 3px 12px #666666;
+    border: 2px solid rgba(102, 102, 255, 0.86);
+    margin: 0 auto;
+}
+
+.button:hover{
+    box-shadow: none;
+    color: rgba(102, 102, 255, 0.86);
+    background : #ffffff; 
+}
+
+.link:hover{
+    box-shadow: none;
+    color: rgba(102, 102, 255, 1.0);
+}
