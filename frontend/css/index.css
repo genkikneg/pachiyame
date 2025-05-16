@@ -43,6 +43,11 @@ header {
     transition: all 0.5s;
 }
 
+.header-right:hover{
+    box-shadow: none;
+    color: #999;
+}
+
 .post-area {
     font-size: 20px;
     padding: 70px;
@@ -62,6 +67,12 @@ header {
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
     transition: all .3s;
     padding: 6px 10px;
+}
+
+.btn:hover{
+    box-shadow: none;
+    color: rgba(102, 102, 255, 0.86);
+    background : #ffffff; 
 }
 
 .posts-item {
