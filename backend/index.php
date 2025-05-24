@@ -1,41 +1,65 @@
 <?php
+    require_once('db/Database.php');
+    //ログインフォーム
+    //ページ作成時参考リンク:https://www.spiral-platform.co.jp/article/member/503/#modal-close
 
-//ログインフォーム
-//ページ作成時参考リンク:https://www.spiral-platform.co.jp/article/member/503/#modal-close
+    //エラーメッセージを空に
+    $err_msg ="";
 
-//エラーメッセージを空に
-$err_msg ="";
+    //submitが押されたときの処理
+    if($_POST['key'] === 'regist'){
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-//submitが押されたときの処理
-if(isset($_POST['login'])){
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+        $db = new Database();
+        $sql = 
+        "
+        INSERT INTO
+            mst_users
+            (username, password)
+        VALUE
+            ('{$username}', '{$password}')
+        ;
+        ";
+        $result = $db->insert($sql);
+        if($result){
+            header('Location: ../frontend/index.html');
+            exit();
+        }else{
+            //エラーを返す
+            http_response_code(500);
+            exit();
+        }
+    }else{
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-    //データがわたってきたときの処理
-    try{
-        $db = new PDD('mysql:host= localhost ', dbname='データベース名', 'ユーザー名', 'パスワード');
-        $sql = 'select count(*) from users(/*認証テーブル*/ ) where username = ? and password = ?';
-        $stmt = $db -> prepare($sql);
-        $stmt -> execute(arry($username, $password));
-        $result = $stmt ->fetch();
-        $stmt = nyll;
-        $db = null;
+        //データがわたってきたときの処理
+        try{
+            //一時的にコメントアウト
+            // $db = new PDD('mysql:host=', dbname='データベース名', 'ユーザー名', 'パスワード');
+            $sql = 'select count(*) from users(/*認証テーブル*/ ) where username = ? and password = ?';
+            $stmt = $db -> prepare($sql);
+            $stmt -> execute(arry($username, $password));
+            $result = $stmt ->fetch();
+            $stmt = nyll;
+            $db = null;
 
-        //ログイン認証ができたときの処理
-        if($result[0] != 0){
-            header('Location: ../../frontend/index.html');
+            //ログイン認証ができたときの処理
+            if($result[0] != 0){
+                header('Location: ../frontend/index.html');
+                exit;
+            }
+            //アカウントが間違っていた時の処理
+            else{
+                $err_msg ="アカウント情報が間違っています";
+            }
+        }
+            //データが渡ってこなかったときの処理
+        catch(PDOExeption $e){
+            echo $r ->getMessage();
             exit;
         }
-        //アカウントが間違っていた時の処理
-        else{
-            $err_msg ="アカウント情報が間違っています";
-        }
     }
-        //データが渡ってこなかったときの処理
-    catch(PDOExeption $e){
-        echo $r ->getMessage();
-        exit;
-    }
-}
 
 ?>
