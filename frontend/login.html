@@ -11,11 +11,17 @@
       <h3>ログインフォーム</h3>
     </div>
     <form action="../backend/index.php" method="post">
-      <p><span class="textbox-label" ユーザーネーム:></span><br>
-      <input type="text" name="username" size="30" class="textbox-1" placeholder="ユーザネームを入力してください"></p>
-      <p><span class="textbox-label" パスワード:></span><br>
-      <input type="text" name="password" size="30" class="textbox-1" placeholder="パスワードを入力してください"></p>
-      <input type="submit" class="button">
+      <div id="username">
+        <h2 class="textbox-label" ユーザーネーム:></h2>
+        <input type="text" name="username" size="30" class="textbox-1" placeholder="ユーザ名を入力してください">
+      </div>
+      <div id ="password"> 
+        <h2 class="textbox-label" パスワード:></h2>
+        <input type="text" name="password" size="30" class="textbox-1" placeholder="パスワードを入力してください">
+      </div>
+      <div id="login-key">
+        <input type="submit" class="button">
+      </div>
     </form>
     <a href="regist.html" class="link">新規登録はこちら</a>
   </body>
