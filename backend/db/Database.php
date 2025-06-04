@@ -1,4 +1,5 @@
 <?php
+require_once('session_congig.php');
 require_once('config.php');
 
 class Database{

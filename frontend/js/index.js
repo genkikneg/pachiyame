@@ -1,11 +1,24 @@
+$(function(){
+    fetch('https://misoon.net/pachiyame/backend/api/get_user.php', {
+        credentials: 'include',
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(res => res.json())
+        .then(function(data){
+            console.log(data);
+            if(data.msg === false){
+                window.location.replace('/pachiyame/frontend/login.html');
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        }
+    );
+})
 
-// $(function() {
-//     $('#form').submit(function() {
-//         var textItem = $('#story').val();
-//         $('#output-text').text(textItem);
-//         return false;
-//     });
-// });
 
 //articlesAPIにPOST
 $('#post-btn').click(function(){
