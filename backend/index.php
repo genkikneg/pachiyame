@@ -1,15 +1,15 @@
 <?php
+    require_once('api/session_config.php');
     require_once('db/Database.php');
     //ログインフォーム
-    //ページ作成時参考リンク:https://www.spiral-platform.co.jp/article/member/503/#modal-close
-
-    //エラーメッセージを空に
-    $err_msg ="";
+    
+    session_start();
 
     //submitが押されたときの処理
     if($_POST['key'] === 'regist'){
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $user_id = '';
 
         $db = new Database();
         $sql = 
@@ -24,7 +24,18 @@
         $result = $db->insert($sql);
         if($result){
             header('Location: ../frontend/index.html');
-            exit();
+            $sql = 
+            "
+            SELECT
+                id
+            FROM
+                mst_users
+            WHERE
+                username='{$username}' AND
+                password='{$password}'
+            ;
+            ";
+            $user_id = $db->select($sql);
         }else{
             //エラーを返す
             http_response_code(500);
@@ -33,33 +44,32 @@
     }else{
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $user_id = '';
 
-        //データがわたってきたときの処理
-        try{
-            //一時的にコメントアウト
-            // $db = new PDD('mysql:host=', dbname='データベース名', 'ユーザー名', 'パスワード');
-            $sql = 'select count(*) from users(/*認証テーブル*/ ) where username = ? and password = ?';
-            $stmt = $db -> prepare($sql);
-            $stmt -> execute(arry($username, $password));
-            $result = $stmt ->fetch();
-            $stmt = nyll;
-            $db = null;
-
-            //ログイン認証ができたときの処理
-            if($result[0] != 0){
-                header('Location: ../frontend/index.html');
-                exit;
-            }
-            //アカウントが間違っていた時の処理
-            else{
-                $err_msg ="アカウント情報が間違っています";
-            }
+        $db = new Database();
+        $sql = 
+        "
+        SELECT
+            id
+        FROM
+            mst_users
+        WHERE
+            username='{$username}' AND
+            password='{$password}'
+        ;
+        ";
+        $result = $db->select($sql);
+        if($result){
+            header('Location: ../frontend/index.html');
+            $user_id = $result;
+        }else{
+            //エラーを返す
+            http_response_code(500);
+            exit();
         }
-            //データが渡ってこなかったときの処理
-        catch(PDOExeption $e){
-            echo $r ->getMessage();
-            exit;
-        }
+        //セッション
+        $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $user_id;
     }
 
 ?>
