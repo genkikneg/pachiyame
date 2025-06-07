@@ -2,8 +2,6 @@
     require_once('api/session_config.php');
     require_once('db/Database.php');
     //ログインフォーム
-    
-    session_start();
 
     //submitが押されたときの処理
     if($_POST['key'] === 'regist'){
@@ -11,6 +9,7 @@
         $password = $_POST['password'];
         $user_id = '';
 
+        $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
         $db = new Database();
         $sql = 
         "
@@ -18,7 +17,7 @@
             mst_users
             (username, password)
         VALUE
-            ('{$username}', '{$password}')
+            ('{$username}', '{$hashed_pass}')
         ;
         ";
         $result = $db->insert($sql);
@@ -32,7 +31,7 @@
                 mst_users
             WHERE
                 username='{$username}' AND
-                password='{$password}'
+                password='{$hashed_pass}'
             ;
             ";
             $user_id = $db->select($sql);
@@ -44,32 +43,35 @@
     }else{
         $username = $_POST['username'];
         $password = $_POST['password'];
+
         $user_id = '';
 
         $db = new Database();
         $sql = 
         "
         SELECT
-            id
+            id, password
         FROM
             mst_users
         WHERE
-            username='{$username}' AND
-            password='{$password}'
+            username='{$username}'
         ;
         ";
         $result = $db->select($sql);
-        if($result){
+        
+        if(password_verify($password, $result[0]['password'])){
+            $user_id = $result[0]['id'];
+            //セッション
+            $_SESSION['username'] = $username;
+            $_SESSION['user_id'] = $user_id;
+
             header('Location: ../frontend/index.html');
-            $user_id = $result;
+            exit();
         }else{
             //エラーを返す
             http_response_code(500);
             exit();
         }
-        //セッション
-        $_SESSION['username'] = $username;
-        $_SESSION['user_id'] = $user_id;
     }
 
 ?>
