@@ -1,7 +1,8 @@
 <?php
 require_once('session_config.php');
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: https://misoon.net");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
+header("Access-Control-Allow-Credentials: true"); 
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 
@@ -12,12 +13,13 @@ $http_method = $_SERVER['REQUEST_METHOD'];
 if($http_method === 'GET'){
     //取得
     $tags = $_GET['tags'] ?? [];
+    $user_id = $_SESSION['user_id'];
 
     if (empty($tags)){
         //全検索
         //データベース関連
         $db = new Database();
-        $query = 'SELECT * FROM trn_diary;';
+        $query = "SELECT * FROM trn_diary WHERE user_id ='{$user_id}';";
         $select_results = $db->select($query);
 
         echo json_encode($select_results, JSON_UNESCAPED_UNICODE);
@@ -27,7 +29,7 @@ if($http_method === 'GET'){
         //データベース関連
         $db = new Database();
         //tagをダブルクウォートで囲みANDで並列させる処理
-        $query = "SELECT * FROM trn_diary WHERE tags LIKE'%". implode("%'AND LIKE '%", $tags). "%';";
+        $query = "SELECT * FROM trn_diary WHERE tags LIKE'%". implode("%'AND tags LIKE '%", $tags). "%' AND user_id ='{$user_id}';";
         $select_results = $db->select($query);
 
         echo json_encode($select_results, JSON_UNESCAPED_UNICODE);
@@ -38,13 +40,14 @@ if($http_method === 'GET'){
     //JSONデータを受け取る
     $data = json_decode(file_get_contents('php://input'), true);
 
+    $user_id = $_SESSION['user_id'] ?? '';
     $body = $data['body'] ?? '';
     $tags = $data['tags'] ?? [];
 
 
     //データベース関連
     $db = new Database();
-    $query = "INSERT INTO trn_diary (body, tags) VALUES ('". $body ."', '". json_encode($tags, JSON_UNESCAPED_UNICODE). "');";
+    $query = "INSERT INTO trn_diary (body, tags, user_id) VALUES ('". $body ."', '". json_encode($tags, JSON_UNESCAPED_UNICODE)."', '". $user_id. "');";
     $insert_result = $db->insert($query);
 
     echo json_encode($insert_result, JSON_UNESCAPED_UNICODE);

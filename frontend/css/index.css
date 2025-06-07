@@ -56,7 +56,7 @@ header {
     resize: none;
 }
 
-.btn {
+/* .btn {
     font-family: 'Dosis', sans-serif;
     font-size: 10px;
     font-weight: 600;
@@ -67,7 +67,7 @@ header {
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
     transition: all .3s;
     padding: 6px 10px;
-}
+} */
 
 .btn:hover{
     box-shadow: none;
@@ -81,3 +81,4 @@ header {
     overflow: hidden;
     box-shadow: 0 2px 6px #c1ced7;
 }
+
