@@ -21,25 +21,48 @@ $(function(){
     //articlesAPIにPOST
     $('#post-btn').click(async function(){
         const body = $('#post-body').val();
-        const tag = $('#post-tag').val().split(',');
+        const tag = $('#post-tag').val();
+
+        const isPUT = $(this).data('isPUT');
+        const article_id = $(this).data('id');
+
+        const method = isPUT ? 'PUT' : 'POST'
         //API呼び出し
         fetch('https://misoon.net/pachiyame/backend/api/articles.php', {
-            method: 'POST',
+            method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 body: body,
-                tags: tag
+                tag: tag,
+                article_id: article_id
             })
         })
             .then(res => res.json())
             .then(async function(data){
                 console.log(data);
-                //強制的に500ms遅らせる。←別の方法で実装する必要あり。
+                
                 await articles_get();
             });
         });
+
+    $(document).on('click','.edit-btn' , function(){
+        const modal = new bootstrap.Modal($('#post-modal').get(0));
+        //モーダルを開く
+        modal.show();
+        const card = $(this).closest('.card');
+        const body =  card.find('.card-body > .card-text').text();
+        const tag = card.find('.card-footer > p').text();
+        const id = card.find('.card-footer > input[type=hidden]').val();
+        
+
+        $('#post-body').val(body);
+        $('#post-tag').val(tag);
+
+        $('#post-btn').data('isPUT', 1);
+        $('#post-btn').data('id', id);
+    });
 })
 
 //articlesAPIにGET
@@ -57,12 +80,20 @@ function articles_get(){
             data.forEach(data2 => {
                 $('.posts-item').append(
                     `
-                    <div class="item card w-50">
-                        <div class="card-body">
-                            <p class="card-tex">${data2.body}</p>
-                            <p>${data2.tags}</p>
-                            <a href="#" class="btn btn-primary">編集</a>
-                            <a href="#" class="btn btn-primary">削除</a>
+                    <div class="p-2 row justify-content-center">
+                        <div class="item card w-50">
+                            <div class="card-body">
+                                <p class="card-text">${data2.body}</p>
+                                <div class="card-footer row">
+                                    <p> ${data2.tag}</p>
+                                    <input type=hidden value="${data2.id}">
+                                    <button type="button" class="btn btn-outline-success col-2 edit-btn">編集</button>
+                                    <a href="#" class="btn btn-outline-danger col-2 remove-btn">削除</a>
+                                    <span class="text-end col-8">
+                                        ${data2.insert_datetime}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     `);
