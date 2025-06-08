@@ -70,9 +70,17 @@ if($http_method === 'GET'){
     exit();
 }elseif($http_method === 'DELETE'){
     //削除
+    $data = json_decode(file_get_contents('php://input'), true);
+    
     $user_id = $_SESSION['user_id'];
+    $article_id = $data['article_id'] ?? '';
 
-    $query = "DELETE FROM trn_diary WHERE";
+    //データベース関連
+    $db = new Database();
+    $query = "DELETE FROM trn_diary WHERE user_id = '{$user_id}' AND id = '{$article_id}';";
+    $delete_result = $db->delete($query);
+
+    echo json_encode($delete_result, JSON_UNESCAPED_UNICODE);
     exit();
 }else{
 

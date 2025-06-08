@@ -18,6 +18,7 @@ $(function(){
         }
     );
 
+    //記事を投稿
     //articlesAPIにPOST
     $('#post-btn').click(async function(){
         const body = $('#post-body').val();
@@ -47,6 +48,8 @@ $(function(){
             });
         });
 
+    //記事を編集
+    //articlesAPIにPUT
     $(document).on('click','.edit-btn' , function(){
         const modal = new bootstrap.Modal($('#post-modal').get(0));
         //モーダルを開く
@@ -63,6 +66,30 @@ $(function(){
         $('#post-btn').data('isPUT', 1);
         $('#post-btn').data('id', id);
     });
+
+    //記事を削除
+    //articlesAPIにDELETE
+    $(document).on('click', '.remove-btn', function(){
+        const card = $(this).closest('.card');
+        const articles_id = card.find('.card-footer > input[type=hidden]').val();
+
+        //API呼び出し
+        fetch('https://misoon.net/pachiyame/backend/api/articles.php',{
+            method: 'DELETE',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                article_id: articles_id
+            })
+        })
+            .then(res => res.json())
+            .then(async function(data){
+                console.log(data);
+
+                await articles_get();
+            })
+    })
 })
 
 //articlesAPIにGET
