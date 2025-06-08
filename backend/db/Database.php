@@ -1,5 +1,5 @@
 <?php
-require_once('session_congig.php');
+require_once(__DIR__ . '/../api/session_config.php');
 require_once('config.php');
 
 class Database{
@@ -26,8 +26,8 @@ class Database{
         }
     }
     //DBのクエリーを処理する関数
-    public function query($query){
-        return $this->db->query($query);
+    public function query($stmt){
+        return $stmt->get_result();
     }
     //DBのセレクトをする関数
     public function select($query){
@@ -54,6 +54,10 @@ class Database{
     //デリートする関数
     public function delete($query){
         return $this->query($query);
+    }
+    //SQLインジェクション対策の関数
+    public function prepare($query) {
+        return $this->db->prepare($query);
     }
 }
 ?>

@@ -11,33 +11,19 @@
 
         $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
         $db = new Database();
-        $sql = 
-        "
-        INSERT INTO
-            mst_users
-            (username, password)
-        VALUE
-            ('{$username}', '{$hashed_pass}')
-        ;
-        ";
-        $result = $db->insert($sql);
+        $stmt = $db->prepare("INSERT INTO mst_users (username, password) VALUE (?, ?);");
+        $stmt->bind_param("ss", $username, $password);
+        $stmt->execute();
+        $result = $db->insert($stmt);
         if($result){
             header('Location: ../frontend/index.html');
-            $sql = 
-            "
-            SELECT
-                id
-            FROM
-                mst_users
-            WHERE
-                username='{$username}' AND
-                password='{$hashed_pass}'
-            ;
-            ";
-            $user_id = $db->select($sql);
+            $stmt = $db->prepare( "SELECT id FROM mst_users WHERE username= ? AND password= ? ;");
+            $stmt->bind_param("ss", $username, $password);
+            $stmt->execute();
+            $user_id = $db->select($stmt);
         }else{
             //エラーを返す
-            http_response_code(500);
+            header('Location: ../frontend/login.html');
             exit();
         }
     }else{
@@ -47,17 +33,10 @@
         $user_id = '';
 
         $db = new Database();
-        $sql = 
-        "
-        SELECT
-            id, password
-        FROM
-            mst_users
-        WHERE
-            username='{$username}'
-        ;
-        ";
-        $result = $db->select($sql);
+        $stmt = $db->prepare("SELECT id, password FROM mst_users WHERE username= ? ;");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $db->select($stmt);
         
         if(password_verify($password, $result[0]['password'])){
             $user_id = $result[0]['id'];
@@ -69,7 +48,7 @@
             exit();
         }else{
             //エラーを返す
-            http_response_code(500);
+            header('Location: ../frontend/login.html');
             exit();
         }
     }
