@@ -90,6 +90,25 @@ $(function(){
                 await articles_get();
             })
     })
+
+    //ログアウト
+    $('#logout-btn').click(function(){
+        $.ajax({
+            url:'/pachiyame/backend/logout.php',
+            type: 'GET',
+            dataType: 'json',
+            success : function(data){
+                if(data.status === 'ok'){
+                    window.location.href = '/pachiyame/frontend/login.html';
+                }
+            },
+            error : function(a,b,c){
+                console.log(a);
+                console.log(b);
+                console.log(c);
+            }
+        })
+    });
 })
 
 //articlesAPIにGET
